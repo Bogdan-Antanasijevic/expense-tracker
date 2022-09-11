@@ -1,0 +1,20 @@
+
+.auth-wrapper{
+    padding: 20px;
+    margin-top: 25vh;    
+
+    h1{
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 3rem;         
+    }
+    form{    
+        label{
+            padding:.2rem .5rem;
+            font-size: 1.5rem;        
+        }
+        input{
+            margin: 5px;        
+        }    
+    }
+}

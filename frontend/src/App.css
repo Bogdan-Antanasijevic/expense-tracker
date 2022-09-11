@@ -4,6 +4,8 @@
   box-sizing: border-box;
 }
 
-.App {
-  text-align: center;  
+.wrapper{  
+  max-width: 700px;    
+  box-shadow: 0 0 8px #ddd;
+  border-radius: 5px;    
 }

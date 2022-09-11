@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const asynHandler = require('express-async-handler');
 const dbConfig = require('../backend/config/dbConfig');
 const Users = require('./models/userModel');
 const SERVER = require('./config/server');
@@ -41,19 +42,36 @@ app.post('/api/login', (req, res) => {
 
 
 // REGISTER API CALL
-app.post('/api/register', (req, res) => {
-    const reqBody = req.body;
-    Users.findOne(reqBody, async (err, data) => {
-        console.log('123');
-        if (err) {
-            const errorMsg = `Error on register user : ${err}`;
-            res.send(errorMsg);            
-            return;
-        }        
-        if (data) {        
-            const newUser = new Users(reqBody);
-            const saveNewUser = await newUser.save();            
-            res.send(saveNewUser || 'User not registered.');
-        }
+app.post('/api/register',asynHandler( async (req, res) => {
+    const {username, email, password} = req.body
+
+    if(!username || !email || !password) {
+        throw new Error ('Please add all fields')
+    }
+    
+    const userExist = await Users.findOne(req.body);
+    if(userExist){
+        res.status(400)
+        throw new Error('User already exists');
+    }
+
+    const user = await Users.create({
+        username,
+        password,
+        email,
     })
+
+    if(user){
+        res.status(201).json({
+            _id : user.id,
+            username : user.username,
+            password: user.password,
+            email: user.email
+        })
+    }
+    else{
+        res.status(400)
+        throw new Error ('Invalid user data')
+    }
 })
+)
