@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const asynHandler = require('express-async-handler');
 const dbConfig = require('../backend/config/dbConfig');
 const Users = require('./models/userModel');
@@ -7,7 +8,6 @@ const SERVER = require('./config/server');
 
 
 const app = express();
-
 app.listen(SERVER.port, err => {
     if (err) {
         console.log(err);
@@ -19,6 +19,7 @@ app.listen(SERVER.port, err => {
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+app.use(cors());
 
 mongoose.connect(dbConfig.MONGODB_URL)
     .then(data => console.log(`MONGO DB IS CONNECTED.`))
@@ -26,18 +27,31 @@ mongoose.connect(dbConfig.MONGODB_URL)
 
 
 // LOGIN API CALL
-app.post('/api/login', (req, res) => {
-    const reqBody = req.body;
-    const foundUser = Users.findOne(reqBody, (err, data) => {
-        if (err) {
-            const errorMsg = `Error on getting user from DB: ${err}`;
-            console.log(errorMsg);
-            res.send(errorMsg);
+app.post('/api/login',  (req, res) => {
+    console.log(req.body);
+    const username = req.body.username;
+    // const reqBody = req.body;
+    // const foundUser =  Users.findOne({username:req.body.username}, (err, data) => {
+    //     if (err) {
+    //         const errorMsg = `Error on getting user from DB: ${err}`;
+    //         console.log(errorMsg);
+    //         res.send(errorMsg);
+    //     }
+    //     else {
+    //         res.send(data);                        
+    //     }
+    // })
+
+    const foundUser = Users.find({username} , (err,data)=>{
+        if (err){
+            console.log('greska',err);
+            res.send(err)
         }
-        else {
-            res.send(data);            
+        if(data.length){
+            console.log('data',data);
+            res.send(data)
         }
-    })
+    })    
 })
 
 

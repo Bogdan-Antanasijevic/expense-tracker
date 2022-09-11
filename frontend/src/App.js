@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
 import AuthPage from './pages/Auth/AuthPage'
 import RegisterPage from './pages/Auth/RegisterPage';
+import HomePage from './pages/HomePage/HomePage';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>        
           <Route path='/' element={<AuthPage />}/>          
           <Route path='/api/register' element={<RegisterPage />}/>          
+          <Route path='/home' element={<HomePage />}/>          
         </Routes>
       </div>
     </Router>
