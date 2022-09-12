@@ -15,7 +15,7 @@ function App() {
       <div className="container wrapper">
         <Routes>        
           <Route path='/' element={<AuthPage />}/>          
-          <Route path='/api/register' element={<RegisterPage />}/>          
+          <Route path='/register' element={<RegisterPage />}/>          
           <Route path='/home' element={<HomePage />}/>          
         </Routes>
       </div>

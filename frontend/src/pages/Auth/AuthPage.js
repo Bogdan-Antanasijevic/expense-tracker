@@ -16,7 +16,7 @@ function AuthPage() {
 
   function goToRegisterForm(e) {
     e.preventDefault()
-    navigate('/api/register')
+    navigate('/register')
   }
 
   const login = (e) => {
@@ -26,7 +26,8 @@ function AuthPage() {
       return
     }
     setIsFormValid(true);
-
+    e.target[0].value = '';
+    e.target[1].value = '';
     AuthService.login(formData)
       .then(res => {
         console.log('PODACI',res.data);

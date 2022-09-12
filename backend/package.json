@@ -5,5 +5,15 @@
     "express-async-handler": "^1.2.0",
     "mongoose": "^6.6.0",
     "nodemon": "^2.0.19"
-  }
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

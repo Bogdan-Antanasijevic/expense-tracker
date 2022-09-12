@@ -27,21 +27,8 @@ mongoose.connect(dbConfig.MONGODB_URL)
 
 
 // LOGIN API CALL
-app.post('/api/login',  (req, res) => {
-    console.log(req.body);
-    const username = req.body.username;
-    // const reqBody = req.body;
-    // const foundUser =  Users.findOne({username:req.body.username}, (err, data) => {
-    //     if (err) {
-    //         const errorMsg = `Error on getting user from DB: ${err}`;
-    //         console.log(errorMsg);
-    //         res.send(errorMsg);
-    //     }
-    //     else {
-    //         res.send(data);                        
-    //     }
-    // })
-
+app.post('/api/login',  (req, res) => {    
+    const username = req.body.username;   
     const foundUser = Users.find({username} , (err,data)=>{
         if (err){
             console.log('greska',err);
