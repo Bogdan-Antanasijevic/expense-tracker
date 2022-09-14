@@ -8,8 +8,9 @@ const loaderSlice = createSlice({
     reducers: {        
         //action
         showLoader: (state,
-                 action ) => {                                                                        
-            state.show = action.payload;            
+                 action ) => {                                                                                     
+            state.show = action.payload;   
+            console.log(state.show);         
 
         },
     },

@@ -3,6 +3,6 @@ import loaderSlice from "./loaderSlice";
 
 export default configureStore({
     reducer:{
-        loaderStore: loaderSlice,
+        loaderStore: loaderSlice,        
     }    
 })

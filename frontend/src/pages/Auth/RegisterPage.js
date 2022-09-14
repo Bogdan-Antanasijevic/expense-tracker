@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AuthService from '../../services/authService';
-import {showLoader} from '../../redux/loaderSlice'
+import { showLoader } from '../../redux/loaderSlice'
 import './registerPage.scss'
+import loaderStore from '../../redux/store'
+import Loader from '../../components/loader/loader';
 
 function RegisterPage() {
 
+  const {show} = useSelector(state=>state.loaderStore)
   const [userData, setUserData] = useState({
     username: '',
     password: '',
@@ -38,23 +41,26 @@ function RegisterPage() {
       setIsFormValid(false)
       return
     }
-    setIsFormValid(true)        
-    dispatch(showLoader(true))    
+    setIsFormValid(true)
+    dispatch(showLoader(true))
     e.target[0].value = '';
     e.target[1].value = '';
-    e.target[2].value = '';    
-    // AuthService.register(userData)
-    //   .then(res => {
-    //     console.log('uspesno ste se registrovali'); // new component
-    //   })
-    //   .catch(err => {
-    //     console.log('greska pri registrovanju', err);
-    //   })
+    e.target[2].value = '';
+    AuthService.register(userData)
+      .then(res => {
+        dispatch(showLoader(false))
+        console.log('uspesno ste se registrovali'); // new component
+      })
+      .catch(err => {
+        console.log('greska pri registrovanju', err);
+      })
 
   }
 
+
   return (
-    <div className='auth-wrapper'>
+    <div className='auth-wrapper'> 
+    {show && <Loader />}  
       <h1>Register</h1>
       <form className='form-group' onSubmit={saveNewUser} >
         <label className='username-label' htmlFor='username'>Username</label>
