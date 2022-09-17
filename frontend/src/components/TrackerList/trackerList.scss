@@ -1,0 +1,37 @@
+.tracker-list{
+    margin-top: 50px;
+
+    .history{
+        height: 40px;
+        border-bottom: 2px solid #ddd;
+        margin-bottom: 20px;
+    }
+
+    .tracker-list-items{
+        list-style: none;
+        height: 50px;
+        width: 100%;
+        background-color: #fff;
+        margin-top: 10px;
+        line-height: 50px;
+        padding-left: 10px;
+        border-bottom: 2px solid #ddd;
+        box-shadow: 0 0 2px #ddd;           
+        overflow: hidden;
+        border-bottom-right-radius: 5px;
+        text-align: justify;
+    }
+    .tracker-list-item-income{
+        border-right: 6px solid green;
+        display: flex;
+        justify-content: space-between;
+    }
+    .tracker-list-item-expense{
+        border-right: 6px solid red;
+        display: flex;
+        justify-content: space-between;
+    }
+    .tracker-list-item-amount{
+        margin-right: 10px;
+    }
+}

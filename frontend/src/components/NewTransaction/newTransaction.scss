@@ -1,0 +1,17 @@
+.transaction{
+    margin-top: 3rem;
+    border-bottom: 2px solid #ddd;
+    height: 40px;
+}
+form{
+    margin-top: 1rem;
+    width: 100%;
+
+    label{
+        margin: .5rem 0;
+    }
+    .btn{
+        margin: 1rem 0; 
+        font-size: large;
+    }
+}

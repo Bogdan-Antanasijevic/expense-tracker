@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import './App.css';
-import Loader from './components/loader/loader';
 import AuthPage from './pages/Auth/AuthPage'
 import RegisterPage from './pages/Auth/RegisterPage';
 import HomePage from './pages/HomePage/HomePage';
@@ -27,7 +26,6 @@ function App() {
   },[])
 
   return (
-    // <Router>
       <div className="container wrapper">
         <Routes>        
           <Route path='/' element={<AuthPage />}/>          
@@ -35,7 +33,6 @@ function App() {
           <Route path='/home' element={<HomePage />}/>          
         </Routes>        
       </div>
-    // </Router>
   );
 }
 
