@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import './loader.scss'
 
 function Loader() {
+    const {show} = useSelector(state=>state.loaderStore)
     return (
         <>
-            <div className='overlay'>
+            {show && <div className='overlay'>
                 <span className='loader'></span>                
-            </div>
+            </div>}
         </>
 
     );

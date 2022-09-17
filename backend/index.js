@@ -5,6 +5,7 @@ const asynHandler = require('express-async-handler');
 const dbConfig = require('../backend/config/dbConfig');
 const Users = require('./models/userModel');
 const SERVER = require('./config/server');
+const jwt = require('jsonwebtoken');
 
 
 const app = express();
@@ -27,19 +28,27 @@ mongoose.connect(dbConfig.MONGODB_URL)
 
 
 // LOGIN API CALL
-app.post('/api/login',  (req, res) => {    
-    const username = req.body.username;   
-    const foundUser = Users.find({username} , (err,data)=>{
-        if (err){
-            console.log('greska',err);
-            res.send(err)
-        }
-        if(data.length){
-            console.log('data',data);
-            res.send(data)
-        }
-    })    
+app.post('/api/login', asynHandler( async (req, res) => {    
+    const {username,email,passowrd} = req.body
+
+    const user = await Users.findOne(req.body)
+    if(user){
+        // localStorage.setItem(user:generateToken(id))
+        res.json({
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            token: generateToken(user._id)
+            
+
+        })
+    }
+    else{
+        res.status(400)
+        throw new Error('Invalid credentials')
+    }
 })
+)
 
 
 // REGISTER API CALL
@@ -60,6 +69,7 @@ app.post('/api/register',asynHandler( async (req, res) => {
         username,
         password,
         email,
+        
     })
 
     if(user){
@@ -67,7 +77,8 @@ app.post('/api/register',asynHandler( async (req, res) => {
             _id : user.id,
             username : user.username,
             password: user.password,
-            email: user.email
+            email: user.email,
+            token: generateToken(user._id)
         })
     }
     else{
@@ -76,3 +87,10 @@ app.post('/api/register',asynHandler( async (req, res) => {
     }
 })
 )
+
+// GENERATE JWT
+const generateToken = (id)=>{    
+    return jwt.sign({id}, SERVER.JWT_SECRET, {
+        expiresIn: '30d',
+    })
+}

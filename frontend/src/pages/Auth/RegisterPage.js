@@ -4,12 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import AuthService from '../../services/authService';
 import { showLoader } from '../../redux/loaderSlice'
 import './registerPage.scss'
-import loaderStore from '../../redux/store'
 import Loader from '../../components/loader/loader';
 
 function RegisterPage() {
 
-  const {show} = useSelector(state=>state.loaderStore)
   const [userData, setUserData] = useState({
     username: '',
     password: '',
@@ -50,6 +48,7 @@ function RegisterPage() {
       .then(res => {
         dispatch(showLoader(false))
         console.log('uspesno ste se registrovali'); // new component
+        console.log(res);
       })
       .catch(err => {
         console.log('greska pri registrovanju', err);
@@ -60,7 +59,8 @@ function RegisterPage() {
 
   return (
     <div className='auth-wrapper'> 
-    {show && <Loader />}  
+    {/* {show && <Loader />}   */}
+    <Loader/>
       <h1>Register</h1>
       <form className='form-group' onSubmit={saveNewUser} >
         <label className='username-label' htmlFor='username'>Username</label>

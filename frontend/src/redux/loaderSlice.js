@@ -9,8 +9,7 @@ const loaderSlice = createSlice({
         //action
         showLoader: (state,
                  action ) => {                                                                                     
-            state.show = action.payload;   
-            console.log(state.show);         
+            state.show = action.payload;                
 
         },
     },
