@@ -2,20 +2,22 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const transactionSlice = createSlice({
     name: 'transactions',
-    initialState: {},    
-    reducers: {        
+    initialState : [],
+    reducers: {
         //action
-        setNewTransaction: (state,action ) => {                 
-            // const newTransaction = {
-            //     id: Date.now(),
-            //     text: action.payload.text,
-            //     amount: action.payload.amount
-            // }
-            // state.push(newTransaction)            
-            state = action.payload
+        setNewTransaction: (state, action) => {
+            const newTransaction = {
+                id: Date.now(),
+                text: action.payload.text,
+                amount: action.payload.amount
+            }
+            // console.log('SLICER',newTransaction);
+            state.push(newTransaction);            
+
+
         },
     },
 });
 
-export const {setNewTransaction} = transactionSlice.actions;
+export const { setNewTransaction } = transactionSlice.actions;
 export default transactionSlice.reducer;

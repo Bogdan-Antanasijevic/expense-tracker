@@ -6,19 +6,25 @@
         border-bottom: 2px solid #ddd;
         margin-bottom: 20px;
     }
+    .tracker-list-container{
+        max-height: 200px;
+        overflow: auto;
+        scroll-behavior: smooth;
+        
+    }
 
     .tracker-list-items{
         list-style: none;
         height: 50px;
-        width: 100%;
-        background-color: #fff;
+        width:100%;
+        background-color: #ddd;
         margin-top: 10px;
         line-height: 50px;
         padding-left: 10px;
         border-bottom: 2px solid #ddd;
         box-shadow: 0 0 2px #ddd;           
         overflow: hidden;
-        border-bottom-right-radius: 5px;
+        border-radius: 7px;
         text-align: justify;
     }
     .tracker-list-item-income{

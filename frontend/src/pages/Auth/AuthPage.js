@@ -85,6 +85,7 @@ function AuthPage() {
           name='password' />
         <input type='submit' className='form-control btn btn-dark' value='Login' />
         <input type='button' className='form-control btn btn-dark' onClick={goToRegisterForm} value='Register' />
+        
         {!isFormValid && <p style={{color: 'red'}}>*Username and password is required!</p>}
       </form>
     </div>

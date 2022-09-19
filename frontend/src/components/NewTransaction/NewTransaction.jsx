@@ -1,33 +1,69 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './newTransaction.scss'
-import { setNewTransaction } from '../../redux/transactionSlice';
 import { useDispatch, useSelector } from 'react-redux'
+import TransactionService from '../../services/transactionService';
+import { setNewTransaction } from '../../redux/transactionSlice'
 
 function NewTransaction() {
 
-  const dispatch = useDispatch();
-
-  const [transaction, setNewTransaction] = useState({
+  const [transaction, setTransaction] = useState({
     text: '',
     amount: ''
   })
+  const [isFormValid, setIsFormValid] = useState(true);
+  // const [isCreatedTransaction, setIsCreatedTransaction] = useState(true);
+  const user = localStorage.getItem('user');
+  const dispatch = useDispatch();
 
   function handleInputFields(e) {
-    setNewTransaction((prevstate) => ({
+    setTransaction((prevstate) => ({
       ...prevstate,
       [e.target.name]: e.target.value,
     }))
   }
 
-  function createTransaction(e) {
+  function createTransaction (e)  {
     e.preventDefault();
-    console.log(transaction);
-    e.target[0].value = ''
-    e.target[1].value = ''
-    console.log(transaction);
-    dispatch(setNewTransaction(transaction))
+    if (!transaction.text || !transaction.amount) {
+      setIsFormValid(false)
+      return
+    }
+    setIsFormValid(true)    
+    e.target[0].value = '';
+    e.target[1].value = '';
+
+   TransactionService.newTransaction({ transaction, user })
+      .then((res) => {
+        console.log(res.data);        
+        getTransactions();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      setTransaction('')          
   }
 
+  useEffect(() => {
+    getTransactions();
+  },[])
+  
+  
+  function getTransactions(i) {    
+    TransactionService.getTransactionsByUsername(user)
+      .then(res => {
+        if (res.status === 200) {
+          // console.log('podaci-----', res.data);
+          res.data.forEach((arr, index) => {
+            let text = res.data[index].text
+            let amount = res.data[index].amounts
+            dispatch(setNewTransaction({ text, amount }));
+          })         
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   return (
 
@@ -43,7 +79,7 @@ function NewTransaction() {
           name='text'
           placeholder='Enter text...'
           className='form-control'
-          value={transaction.text}
+          defaultValue={transaction.text}
           onChange={handleInputFields}
         />
         <label htmlFor="amount">
@@ -56,13 +92,14 @@ function NewTransaction() {
           placeholder='Enter amount...'
           className='form-control'
           onChange={handleInputFields}
-          value={transaction.amount}
+          defaultValue={transaction.amount}
         />
         <input type="submit"
           value="Add transaction"
           className='form-control btn btn-primary '
         />
 
+        {!isFormValid && <p style={{ color: 'red' }}>* All fields are required</p>}
       </form>
 
     </div>

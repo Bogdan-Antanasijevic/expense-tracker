@@ -58,8 +58,7 @@ function RegisterPage() {
 
 
   return (
-    <div className='auth-wrapper'> 
-    {/* {show && <Loader />}   */}
+    <div className='auth-wrapper'>     
     <Loader/>
       <h1>Register</h1>
       <form className='form-group' onSubmit={saveNewUser} >
