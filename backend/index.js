@@ -117,7 +117,7 @@ app.get('/api/get-transactions/:user', (req,res)=>{
             res.status(400).send(err)
         }
         if(data){
-            // console.log(data);
+            console.log(data);            
             res.status(200).send(data.transactions)
         }
     })

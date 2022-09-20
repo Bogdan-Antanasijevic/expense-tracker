@@ -3,6 +3,8 @@ import './newTransaction.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import TransactionService from '../../services/transactionService';
 import { setNewTransaction } from '../../redux/transactionSlice'
+import { showLoader } from '../../redux/loaderSlice'
+import Loader from '../loader/loader';
 
 function NewTransaction() {
 
@@ -22,42 +24,37 @@ function NewTransaction() {
     }))
   }
 
-  function createTransaction (e)  {
+  function createTransaction(e) {
     e.preventDefault();
     if (!transaction.text || !transaction.amount) {
       setIsFormValid(false)
       return
     }
-    setIsFormValid(true)    
+    setIsFormValid(true)
     e.target[0].value = '';
     e.target[1].value = '';
-
-   TransactionService.newTransaction({ transaction, user })
+    dispatch(showLoader(true))
+    TransactionService.newTransaction({ transaction, user })
       .then((res) => {
-        console.log(res.data);        
+        console.log(res.data);
         getTransactions();
       })
       .catch((err) => {
         console.log(err);
       })
-      setTransaction('')          
+    setTransaction('')
   }
-
+  const transactions = useSelector(state => state.transactionStore)
   useEffect(() => {
     getTransactions();
-  },[])
-  
-  
-  function getTransactions(i) {    
+  }, [transactions[0]])
+
+
+  function getTransactions() {
     TransactionService.getTransactionsByUsername(user)
       .then(res => {
         if (res.status === 200) {
-          // console.log('podaci-----', res.data);
-          res.data.forEach((arr, index) => {
-            let text = res.data[index].text
-            let amount = res.data[index].amounts
-            dispatch(setNewTransaction({ text, amount }));
-          })         
+          dispatch(setNewTransaction(res.data))
         }
       })
       .catch(err => {
@@ -68,7 +65,7 @@ function NewTransaction() {
   return (
 
     <div className='container '>
-
+      <Loader />
       <h4 className='transaction'>Add new transaction</h4>
       <form
         className='form-group'
