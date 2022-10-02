@@ -3,7 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/loader/loader';
 import { showLoader } from '../../redux/loaderSlice';
+import { setNewTransaction } from '../../redux/transactionSlice';
 import AuthService from '../../services/authService'
+import TransactionService from '../../services/transactionService';
 import './authPage.scss';
 
 
@@ -35,19 +37,35 @@ function AuthPage() {
     dispatch(showLoader(true))
     AuthService.login(formData)
       .then(res => {
-        console.log('PODACI',res.data);
+        console.log('PODACI', res.data);
         localStorage.setItem('user', JSON.stringify(res.data.username));
         localStorage.setItem('token', JSON.stringify(res.data.token));
-        if(localStorage.hasOwnProperty('user')){
+
+        const user = localStorage.getItem('user')
+
+        TransactionService.getTransactionsByUsername(user)
+          .then(res => {
+            if (res.status === 200) {
+              console.log('podaci o useru iz baze', res.data);
+              dispatch(setNewTransaction(res.data))
+              dispatch(showLoader(false))
+
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          })
+
+        if (localStorage.hasOwnProperty('user')) {
           navigate('/home')
         }
-        else{
+        else {
           return
         }
-        dispatch(showLoader(false))
+
       })
       .catch(err => {
-        console.log('GRESKAA',err);
+        console.log('GRESKAA', err);
       })
   }
 
@@ -61,7 +79,7 @@ function AuthPage() {
 
   return (
     <div className='auth-wrapper'>
-      <Loader/>
+      <Loader />
       <h1>Welcome</h1>
       <form className='form-group' onSubmit={login}>
         <label className='username-label' htmlFor='username'>Username</label>
@@ -73,7 +91,7 @@ function AuthPage() {
           value={username}
           onChange={onChange}
           name='username'
-        />        
+        />
         <label className='password-label' htmlFor='password'>Password</label>
         <input
           type='password'
@@ -85,8 +103,8 @@ function AuthPage() {
           name='password' />
         <input type='submit' className='form-control btn btn-dark' value='Login' />
         <input type='button' className='form-control btn btn-dark' onClick={goToRegisterForm} value='Register' />
-        
-        {!isFormValid && <p style={{color: 'red'}}>*Username and password is required!</p>}
+
+        {!isFormValid && <p style={{ color: 'red' }}>*Username and password is required!</p>}
       </form>
     </div>
   )

@@ -8,10 +8,12 @@ import './trackerList.scss'
 
 function TrackerList() {
 
-    const transactions = useSelector(state => state.transactionStore)        
-    const transactionsLastArray = transactions.length - 1;    
     const dispatch = useDispatch();
     const scrollDiv = useRef();
+
+    const transactions = useSelector(state => state.transactionStore)
+    const transactionsLastArray = transactions.length - 1;
+    
     useEffect(() => {
         scrollDiv.current?.scrollIntoView({ behavior: 'smooth' });
         dispatch(showLoader(false))

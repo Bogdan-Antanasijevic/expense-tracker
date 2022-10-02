@@ -13,7 +13,6 @@ function NewTransaction() {
     amount: ''
   })
   const [isFormValid, setIsFormValid] = useState(true);
-  // const [isCreatedTransaction, setIsCreatedTransaction] = useState(true);
   const user = localStorage.getItem('user');
   const dispatch = useDispatch();
 

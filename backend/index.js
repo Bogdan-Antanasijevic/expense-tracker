@@ -90,11 +90,12 @@ app.post('/api/new-transaction', async (req, res) => {
     const regBody = req.body;
     const amount = parseInt(regBody.transaction.amount);
     const text = regBody.transaction.text;
-    const user = regBody.user        
+    const user = regBody.user   
+    console.log('---', user);     
 
     if (regBody) {
         Users.updateOne(
-            { user }, { $push: { transactions: {text: text, amounts: amount} } },
+            {user}, { $push: { transactions: {text: text, amounts: amount} } },
             null, (error, data) => {
                 if (error) throw new Error('greska');
                 res.send('Transaction succeed')
@@ -107,17 +108,16 @@ app.post('/api/new-transaction', async (req, res) => {
 })
 
 // GET ALL TRANSACTIONS
-app.get('/api/get-transactions/:user', (req,res)=>{
+app.get('/api/get-transactions/:user', (req,res)=>{    
     const user = req.params.user;
-    // console.log(user);
-    
+    console.log('user---',user);
     Users.findOne({user},(err,data)=>{
-        if(err){
-            console.log('greskaa',err);
+        if(err){            
+            console.log(err);
             res.status(400).send(err)
         }
-        if(data){
-            console.log(data);            
+        if(data){            
+            console.log('data',data);            
             res.status(200).send(data.transactions)
         }
     })
