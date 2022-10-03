@@ -32,8 +32,7 @@ app.post('/api/login', asynHandler(async (req, res) => {
     const { username, email, passowrd } = req.body
 
     const user = await Users.findOne(req.body)
-    if (user) {
-        // localStorage.setItem(user:generateToken(id))
+    if (user) {        
         res.json({
             _id: user._id,
             username: user.username,
@@ -86,19 +85,21 @@ app.post('/api/register', asynHandler(async (req, res) => {
 )
 
 // NEW TRANSACTION API CALL
-app.post('/api/new-transaction', async (req, res) => {
-    const regBody = req.body;
-    const amount = parseInt(regBody.transaction.amount);
-    const text = regBody.transaction.text;
-    const user = regBody.user   
-    console.log('---', user);     
+app.post('/api/new-transaction', (req, res) => {
+    const amount = parseInt(req.body.transaction.amount);
+    const text = req.body.transaction.text;
+    const user = req.body.user
+    // console.log(req.body);
+    // console.log(user);
 
-    if (regBody) {
+    if (req.body) {
         Users.updateOne(
-            {user}, { $push: { transactions: {text: text, amounts: amount} } },
+            { username: user }, { $push: { transactions: { text: text, amounts: amount } } },
             null, (error, data) => {
-                if (error) throw new Error('greska');
-                res.send('Transaction succeed')
+                if (error) throw new Error('Error on transaction');
+                if (data) {
+                    res.send('Transaction succeed')
+                }
             })
     }
     else {
@@ -107,21 +108,25 @@ app.post('/api/new-transaction', async (req, res) => {
     }
 })
 
+
 // GET ALL TRANSACTIONS
-app.get('/api/get-transactions/:user', (req,res)=>{    
+app.get('/api/get-transactions/:user', (req, res) => {
     const user = req.params.user;
-    console.log('user---',user);
-    Users.findOne({user},(err,data)=>{
-        if(err){            
+    // console.log('user---', user);
+
+    Users.findOne({ username: user }, (err, data) => {
+        if (err) {
             console.log(err);
-            res.status(400).send(err)
         }
-        if(data){            
-            console.log('data',data);            
+        if (data) {
+            // console.log('122--', data.transactions);
             res.status(200).send(data.transactions)
         }
-    })
+    });
+
+
 })
+
 
 // GENERATE JWT
 const generateToken = (id) => {

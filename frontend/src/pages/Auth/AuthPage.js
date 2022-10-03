@@ -35,18 +35,18 @@ function AuthPage() {
     e.target[0].value = '';
     e.target[1].value = '';
     dispatch(showLoader(true))
+
     AuthService.login(formData)
       .then(res => {
-        console.log('PODACI', res.data);
+        // console.log('PODACI', res.data);
         localStorage.setItem('user', JSON.stringify(res.data.username));
         localStorage.setItem('token', JSON.stringify(res.data.token));
 
-        const user = localStorage.getItem('user')
-
+        const user = JSON.parse(localStorage.getItem('user'));
+        // console.log(res.data.username);
         TransactionService.getTransactionsByUsername(user)
           .then(res => {
             if (res.status === 200) {
-              console.log('podaci o useru iz baze', res.data);
               dispatch(setNewTransaction(res.data))
               dispatch(showLoader(false))
 
@@ -62,6 +62,7 @@ function AuthPage() {
         else {
           return
         }
+
 
       })
       .catch(err => {

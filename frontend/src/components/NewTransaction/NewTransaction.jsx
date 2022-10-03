@@ -12,8 +12,9 @@ function NewTransaction() {
     text: '',
     amount: ''
   })
-  const [isFormValid, setIsFormValid] = useState(true);
-  const user = localStorage.getItem('user');
+  const [isFormValid, setIsFormValid] = useState(true);  
+  const user = JSON.parse(localStorage.getItem('user'));
+
   const dispatch = useDispatch();
 
   function handleInputFields(e) {
@@ -33,9 +34,9 @@ function NewTransaction() {
     e.target[0].value = '';
     e.target[1].value = '';
     dispatch(showLoader(true))
-    TransactionService.newTransaction({ transaction, user })
-      .then((res) => {
-        console.log(res.data);
+    TransactionService.newTransaction({ transaction, user})
+      .then(res => {
+        console.log(res.data);        
         getTransactions();
       })
       .catch((err) => {
@@ -53,7 +54,9 @@ function NewTransaction() {
     TransactionService.getTransactionsByUsername(user)
       .then(res => {
         if (res.status === 200) {
+          // console.log(res.data);
           dispatch(setNewTransaction(res.data))
+          dispatch(showLoader(false))
         }
       })
       .catch(err => {

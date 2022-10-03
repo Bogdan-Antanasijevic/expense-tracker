@@ -6,7 +6,8 @@ const transactionSlice = createSlice({
     reducers: {
         //action
         setNewTransaction: (state, action) => {                                             
-             state = state.push(action.payload)                                   
+             state = state.push(action.payload)    
+                                     
         },
 
     },

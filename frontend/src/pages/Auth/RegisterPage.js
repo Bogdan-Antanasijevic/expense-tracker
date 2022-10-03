@@ -47,11 +47,11 @@ function RegisterPage() {
     AuthService.register(userData)
       .then(res => {
         dispatch(showLoader(false))
-        console.log('uspesno ste se registrovali'); // new component
-        console.log(res);
+        console.log('Succesfull register'); // new component
+        // console.log(res);
       })
       .catch(err => {
-        console.log('greska pri registrovanju', err);
+        console.log('Error on register', err);
       })
 
   }

@@ -11,7 +11,7 @@ function TrackerList() {
     const dispatch = useDispatch();
     const scrollDiv = useRef();
 
-    const transactions = useSelector(state => state.transactionStore)
+    const transactions = useSelector(state => state.transactionStore)    
     const transactionsLastArray = transactions.length - 1;
     
     useEffect(() => {
