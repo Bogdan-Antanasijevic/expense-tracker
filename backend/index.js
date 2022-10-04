@@ -42,7 +42,7 @@ app.post('/api/login', asynHandler(async (req, res) => {
     }
     else {
         res.status(400)
-        throw new Error('Invalid credentials')
+        res.status(400).send('Invalid data')
     }
 })
 )
@@ -50,15 +50,20 @@ app.post('/api/login', asynHandler(async (req, res) => {
 // REGISTER API CALL
 app.post('/api/register', asynHandler(async (req, res) => {
     const { username, email, password } = req.body
+    
 
     if (!username || !email || !password) {
-        throw new Error('Please add all fields')
+        res.status(400).send('Please add all fields')
     }
 
     const userExist = await Users.findOne(req.body);
-    if (userExist) {
-        res.status(400)
-        throw new Error('User already exists');
+    const userEmailUsed = await Users.findOne({email});
+    const userUsernameUsed = await Users.findOne({username});
+    if (userExist) {        
+        res.status(400).send('User already exists');
+    }
+    if(userEmailUsed || userUsernameUsed){
+        res.status(400).send('User with same data already exists');
     }
 
     const user = await Users.create({
@@ -78,8 +83,7 @@ app.post('/api/register', asynHandler(async (req, res) => {
         })
     }
     else {
-        res.status(400)
-        throw new Error('Invalid user data')
+        res.status(400).send('Invalid user data')
     }
 })
 )

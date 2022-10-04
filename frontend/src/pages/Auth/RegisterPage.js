@@ -5,6 +5,9 @@ import AuthService from '../../services/authService';
 import { showLoader } from '../../redux/loaderSlice'
 import './registerPage.scss'
 import Loader from '../../components/loader/loader';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function RegisterPage() {
 
@@ -41,25 +44,33 @@ function RegisterPage() {
     }
     setIsFormValid(true)
     dispatch(showLoader(true))
-    e.target[0].value = '';
-    e.target[1].value = '';
-    e.target[2].value = '';
+
     AuthService.register(userData)
       .then(res => {
         dispatch(showLoader(false))
         console.log('Succesfull register'); // new component
+        toast.success('You successfully registered');
+        e.target[0].value = '';
+        e.target[1].value = '';
+        e.target[2].value = '';
+        setTimeout(() => {
+          navigate('/')
+        }, 5000);
         // console.log(res);
       })
       .catch(err => {
-        console.log('Error on register', err);
+        console.log(err);
+        toast.error(err.response.data)
+        dispatch(showLoader(false))
+
       })
 
   }
 
 
   return (
-    <div className='auth-wrapper'>     
-    <Loader/>
+    <div className='auth-wrapper'>
+      <Loader />
       <h1>Register</h1>
       <form className='form-group' onSubmit={saveNewUser} >
         <label className='username-label' htmlFor='username'>Username</label>
@@ -93,8 +104,11 @@ function RegisterPage() {
         />
         <input type='submit' className='form-control btn btn-dark' value='Register' />
         <input type='button' className='form-control btn btn-dark' onClick={backToLogin} value='Back to login' />
+        {!isFormValid && <p style={{ color: 'red' }}>* All fields are required !!!</p>}
       </form>
+      <ToastContainer />
     </div>
+
   )
 }
 

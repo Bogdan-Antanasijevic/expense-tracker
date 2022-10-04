@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/loader/loader';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { showLoader } from '../../redux/loaderSlice';
 import { setNewTransaction } from '../../redux/transactionSlice';
 import AuthService from '../../services/authService'
@@ -32,12 +34,12 @@ function AuthPage() {
       return
     }
     setIsFormValid(true);
-    e.target[0].value = '';
-    e.target[1].value = '';
     dispatch(showLoader(true))
 
     AuthService.login(formData)
       .then(res => {
+        e.target[0].value = '';
+        e.target[1].value = '';
         // console.log('PODACI', res.data);
         localStorage.setItem('user', JSON.stringify(res.data.username));
         localStorage.setItem('token', JSON.stringify(res.data.token));
@@ -54,6 +56,8 @@ function AuthPage() {
           })
           .catch(err => {
             console.log(err);
+
+
           })
 
         if (localStorage.hasOwnProperty('user')) {
@@ -66,7 +70,9 @@ function AuthPage() {
 
       })
       .catch(err => {
-        console.log('GRESKAA', err);
+        // console.log( err);
+        dispatch(showLoader(false))
+        toast.error(err.response.data)
       })
   }
 
@@ -107,6 +113,7 @@ function AuthPage() {
 
         {!isFormValid && <p style={{ color: 'red' }}>*Username and password is required!</p>}
       </form>
+      <ToastContainer />
     </div>
   )
 }
