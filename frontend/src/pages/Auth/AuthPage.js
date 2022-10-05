@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/loader/loader';
@@ -8,6 +8,7 @@ import { showLoader } from '../../redux/loaderSlice';
 import { setNewTransaction } from '../../redux/transactionSlice';
 import AuthService from '../../services/authService'
 import TransactionService from '../../services/transactionService';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './authPage.scss';
 
 
@@ -21,6 +22,8 @@ function AuthPage() {
   })
   const { username, password } = formData;
   const [isFormValid, setIsFormValid] = useState(true);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const inputEl = useRef();
 
   function goToRegisterForm(e) {
     e.preventDefault()
@@ -75,13 +78,23 @@ function AuthPage() {
         toast.error(err.response.data)
       })
   }
+  const showHidePass = (e) => {
+    if (!isPasswordVisible) {
+      setIsPasswordVisible(true)
+      inputEl.current.type='password';
+    }
+    else {
+      setIsPasswordVisible(false);
+      inputEl.current.type='text';
+    }
+  }
+
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }))
-
   }
 
   return (
@@ -100,14 +113,22 @@ function AuthPage() {
           name='username'
         />
         <label className='password-label' htmlFor='password'>Password</label>
-        <input
-          type='password'
-          className='form-control'
-          id='password'
-          placeholder='Enter your password'
-          value={password}
-          onChange={onChange}
-          name='password' />
+
+        <div className='form-control password-input'>
+          <input
+            type='password'
+            id='password'
+            placeholder='Enter your password'
+            value={password}
+            onChange={onChange}
+            name='password'
+            ref={inputEl}
+          />
+          <label htmlFor='checkbox' className='checkbox-label' > {!isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
+            <input type='checkbox' id='checkbox' className='checkbox' onClick = {showHidePass}/>
+          </label>
+        </div>        
+
         <input type='submit' className='form-control btn btn-dark' value='Login' />
         <input type='button' className='form-control btn btn-dark' onClick={goToRegisterForm} value='Register' />
 

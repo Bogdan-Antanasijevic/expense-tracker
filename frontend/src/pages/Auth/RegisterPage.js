@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthService from '../../services/authService';
 import { showLoader } from '../../redux/loaderSlice'
-import './registerPage.scss'
 import Loader from '../../components/loader/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import './registerPage.scss'
+
 
 
 function RegisterPage() {
@@ -18,6 +20,10 @@ function RegisterPage() {
   })
   const { username, password, email } = userData
   const [isFormValid, setIsFormValid] = useState(true);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const inputEl = useRef();
+
+
 
 
   const navigate = useNavigate();
@@ -33,6 +39,16 @@ function RegisterPage() {
       ...prevState,
       [e.target.name]: e.target.value,
     }))
+  }
+  const showHidePass = (e) => {
+    if (!isPasswordVisible) {
+      setIsPasswordVisible(true)
+      inputEl.current.type = 'password';
+    }
+    else {
+      setIsPasswordVisible(false);
+      inputEl.current.type = 'text';
+    }
   }
 
   function saveNewUser(e) {
@@ -83,15 +99,25 @@ function RegisterPage() {
           onChange={saveUserData}
           name='username'
         />
+
+
         <label className='password-label' htmlFor='password'>Password</label>
-        <input
-          type='password'
-          className='form-control'
-          id='password'
-          placeholder='Enter your password'
-          value={password}
-          onChange={saveUserData}
-          name='password' />
+        <div className='form-control password-input'>
+          <input
+            type='password'
+            id='password'
+            placeholder='Enter your password'
+            value={password}
+            onChange={saveUserData}
+            name='password'
+            ref={inputEl}
+          />
+
+          <label htmlFor='checkbox' className='checkbox-label' > {!isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
+            <input type='checkbox' id='checkbox' className='checkbox' onClick={showHidePass} />
+          </label>
+        </div>
+
         <label className='email-label' htmlFor='email'>Email</label>
         <input
           type='email'

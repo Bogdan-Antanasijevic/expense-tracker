@@ -1,20 +1,67 @@
-
-.auth-wrapper{
+.auth-wrapper {
     padding: 20px;
-    margin-top: 25vh;    
+    margin-top: 25vh;
 
-    h1{
+    h1 {
         text-align: center;
         margin-bottom: 20px;
-        font-size: 3rem;         
+        font-size: 3rem;
     }
-    form{    
-        label{
-            padding:.2rem .5rem;
-            font-size: 1.5rem;        
+
+    form {
+        label {
+            padding: .2rem .5rem;
+            font-size: 1.5rem;
         }
-        input{
-            margin: 5px;        
-        }    
+
+        input {
+            margin: 5px;
+        }
+
+        .password-input {
+            display: block;
+            width: 100%;                                                            
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: .375rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            display: flex ;
+            justify-content: space-between;
+            align-items: center;
+            height: 38px;
+            margin-bottom: 20px;
+
+            input{
+                height: 100%;
+                border: none;
+                margin: auto 0;
+                outline: none;
+                width: 90%;
+            }
+            label{
+                width: 10%;
+                height: 100%;                
+                display: flex;
+                justify-content: end;
+                align-items: center;                   
+            }
+        }
+
+        .checkbox {
+            display: none;
+        }
+
+        .label-checkbox {
+            border: 1px solid #ced4da;
+            background-color: red;
+            width: 100px;
+            height: 100px;
+        }
+
     }
 }
