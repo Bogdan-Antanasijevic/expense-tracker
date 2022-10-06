@@ -131,6 +131,22 @@ app.get('/api/get-transactions/:user', (req, res) => {
 
 })
 
+// RESET BALANCE API CALL
+app.delete('/api/reset-balance/:user', (req,res)=>{
+    const user = req.params.user;
+
+    Users.findOneAndUpdate({username:user},{transactions: []},(err,data)=>{
+        if(err){
+            console.log('greska', err);
+        }
+        if(data){
+            console.log('data',data);
+            res.send(data)
+        }
+    })
+
+})
+
 
 // GENERATE JWT
 const generateToken = (id) => {

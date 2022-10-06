@@ -2,6 +2,28 @@
     font-weight: bold;
 }
 
+.balance{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;    
+
+    .buttons-div{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+
+        button{
+            padding: 6px 12px;
+            width: 72px;
+            height: 38px;
+        }
+    }
+}
+
 h1,h4{
     margin-bottom: 0;    
+}
+h2{
+    margin: 20px;
 }

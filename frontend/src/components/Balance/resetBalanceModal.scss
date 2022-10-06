@@ -1,0 +1,21 @@
+.reset-balance-modal {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 0 8px black;
+    background-color: #fff;
+    border-radius: 10px;    
+    text-align: center;
+    padding: 1rem;
+
+    .times-circle-icon{
+        width: 100px;
+        height: 100px;
+    }
+}

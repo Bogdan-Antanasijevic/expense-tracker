@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import './navBar.scss'
 import { FaSignOutAlt } from 'react-icons/fa'
 import { showLoader } from '../../redux/loaderSlice'
+import {showResetBalanceModal} from '../../redux/resetBalanceModal'
 
 
 
@@ -13,6 +14,7 @@ function NavBar() {
     const dispatch = useDispatch();
         
     const onLogout = ()=>{
+        dispatch(showResetBalanceModal(false));
         dispatch(showLoader(true));
         localStorage.clear()
         navigate('/')

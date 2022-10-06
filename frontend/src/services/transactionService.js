@@ -7,6 +7,9 @@ class TransactionService {
     static getTransactionsByUsername(user){
         return axios.get(`/api/get-transactions/${user}`)
     }
+    static resetBalance(user){
+        return axios.delete(`/api/reset-balance/${user}`)
+    }
 }
 
 export default TransactionService

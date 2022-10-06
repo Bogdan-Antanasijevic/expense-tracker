@@ -1,32 +1,49 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import ResetBalanceModal from './ResetBalanceModal';
+import {showResetBalanceModal} from '../../redux/resetBalanceModal'
 import './balance.scss'
 
 function Balance() {
 
   const transactions = useSelector(state => state.transactionStore)
-  const transactionsLastArray = transactions.length - 1;
+  const transactionsLastArray = transactions.length - 1;  
+  const dispatch = useDispatch();
+  const {showModal} = useSelector(state => state.resetBalanceModalStore);
 
-    const arr = [];
+  const arr = [];
 
-    if (transactions[0]) {
-      transactions[transactionsLastArray].map((el, i) => {
-        arr.push(el.amounts);
-      })
-    }
+  if (transactions[0]) {
+    transactions[transactionsLastArray].map((el, i) => {
+      arr.push(el.amounts);
+    })
+  }
 
-    let balance;
-    if (arr.length) {
-       balance = arr.reduce(
-        (previousValue, currentValue) => previousValue + currentValue
-      )
+  let balance;
+  if (arr.length) {
+    balance = arr.reduce(
+      (previousValue, currentValue) => previousValue + currentValue
+    )
 
-    }
-  // console.log(balance);
+  }
+  
+  const resetBalance = () =>{    
+      if(!showModal){
+        dispatch(showResetBalanceModal(true))
+      }
+      else{
+        dispatch(showResetBalanceModal(false))
+      }
+      
+  }
 
   return (
     <>
-      <h4>YOUR BALANCE</h4>
+      <div className="balance">
+        {showModal ? <ResetBalanceModal /> : null}        
+        <h4>YOUR BALANCE</h4>
+        <button className='btn btn-info btn-sm' onClick={resetBalance}>Reset balance</button>        
+      </div>      
       <h1 className='amount'>${balance || 0}</h1>
     </>
 

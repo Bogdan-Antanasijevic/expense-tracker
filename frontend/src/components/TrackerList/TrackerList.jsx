@@ -12,7 +12,7 @@ function TrackerList() {
     const scrollDiv = useRef();
 
     const transactions = useSelector(state => state.transactionStore)    
-    const transactionsLastArray = transactions.length - 1;
+    const transactionsLastArray = transactions.length - 1;        
     
     useEffect(() => {
         scrollDiv.current?.scrollIntoView({ behavior: 'smooth' });
@@ -25,11 +25,12 @@ function TrackerList() {
             <Loader />
             <h4 className='history'>History</h4>
             <div className='tracker-list-container'>
-                {transactions[0] ? transactions[transactionsLastArray].map((el, index) => {
+                { transactions.length ? transactions[transactionsLastArray].map((el, index) => {
                     return <div className="tracker-list-items" key={index}>
                         <li className={transactions[transactionsLastArray][index].amounts >= 0 ? 'tracker-list-item-income' : 'tracker-list-item-expense'}>{transactions[transactionsLastArray][index].text}<span className='tracker-list-item-amount'>${transactions[transactionsLastArray][index].amounts}</span></li>
                     </div>
                 }) : null}
+               
 
                 <div ref={scrollDiv} ></div>
             </div>
