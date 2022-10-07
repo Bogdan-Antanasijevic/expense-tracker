@@ -2,9 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const asynHandler = require('express-async-handler');
-const dbConfig = require('./config/dbConfig');
-const Users = require('./models/userModel');
-const SERVER = require('./config/server');
+const dbConfig = require('../backend/config/dbConfig');
+const Users = require('../backend/models/userModel');
+const SERVER = require('../backend/config/server');
 const jwt = require('jsonwebtoken');
 
 
