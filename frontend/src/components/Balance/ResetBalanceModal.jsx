@@ -38,9 +38,9 @@ function ResetBalanceModal() {
       <FaTimesCircle className='times-circle-icon' />
       <h2>Are u sure?</h2>
       <p>Do you really want to reset your balance? This process cannot be undone</p>
-      <div className='buttons-div'>
-        <button className='btn btn-success' onClick={resetBalance}>Yes</button>
-        <button className='btn btn-secondary' onClick={cancelModal}>Cancel</button>
+      <div className='buttons-div container'>
+        <button className='btn btn-success rbm-button' onClick={resetBalance}>Yes</button>
+        <button className='btn btn-secondary rbm-button' onClick={cancelModal}>Cancel</button>
       </div>
     </div>
   )
