@@ -8,6 +8,10 @@
     "mongoose": "^6.6.0",
     "nodemon": "^2.0.19"
   },
+  "engines": {
+    "node": "v16.14.0",
+    "npm":"8.15.0"
+  },
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
