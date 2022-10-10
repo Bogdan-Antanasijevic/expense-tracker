@@ -9,6 +9,11 @@ const jwt = require('jsonwebtoken');
 
 
 const app = express();
+
+await mongoose.connect(dbConfig.MONGODB_URL)
+    .then(data => console.log(`MONGO DB IS CONNECTED.`))
+    .catch(err => console.log(`Error while connecting to MONGO DB : ${err}`));
+
 app.listen(SERVER.port, err => {
     if (err) {
         console.log(err);
@@ -22,9 +27,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cors());
 
-await mongoose.connect(dbConfig.MONGODB_URL)
-    .then(data => console.log(`MONGO DB IS CONNECTED.`))
-    .catch(err => console.log(`Error while connecting to MONGO DB : ${err}`));
+
 
 app.get('/hello',(req,res)=>{
     res.status(200).json({message: 'helloo'})
