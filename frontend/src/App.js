@@ -10,7 +10,7 @@ import HomePage from './pages/HomePage/HomePage';
 
 function App() {
 
-  axios.defaults.baseURL = 'https://expense-tracker-production.up.railway.app/';
+  axios.defaults.baseURL = 'https://expense-tracker-production.up.railway.app';
   const [isCheckingUserFinished, setIsCheckingUserFinished] = useState(false);
 
   const navigate = useNavigate()
