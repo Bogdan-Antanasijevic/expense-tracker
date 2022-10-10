@@ -26,7 +26,7 @@ mongoose.connect(dbConfig.MONGODB_URL)
     .then(data => console.log(`MONGO DB IS CONNECTED.`))
     .catch(err => console.log(`Error while connecting to MONGO DB : ${err}`));
 
-app.get('/',(req,res)=>{
+app.get('/hello',(req,res)=>{
     res.status(200).json({message: 'helloo'})
 })
 
