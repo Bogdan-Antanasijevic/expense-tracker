@@ -26,6 +26,10 @@ mongoose.connect(dbConfig.MONGODB_URL)
     .then(data => console.log(`MONGO DB IS CONNECTED.`))
     .catch(err => console.log(`Error while connecting to MONGO DB : ${err}`));
 
+app.get('/',(req,res)=>{
+    res.send('helloo')
+})
+
 
 // LOGIN API CALL
 app.post('/api/login', asynHandler(async (req, res) => {
